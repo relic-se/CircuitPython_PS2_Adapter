@@ -23,7 +23,7 @@ DATA_PIN    = board.D9
 CLOCK_PIN   = board.D10
 
 TIMEOUT     = 0.01
-DEBUG       = True
+DEBUG       = 1  # 0 = off, 1 = on, 2 = verbose
 
 ## Keycode Mapping
 
@@ -139,7 +139,7 @@ class PS2Keyboard:
                     print("UNKNOWN code {:x}".format(code))
                 return
 
-ps2 = PS2Keyboard(DATA_PIN, CLOCK_PIN, DEBUG)
+ps2 = PS2Keyboard(DATA_PIN, CLOCK_PIN, DEBUG > 1)
 
 codeset_id = ps2.get_scancodeset_id()
 if codeset_id is not None and DEBUG:
@@ -197,7 +197,7 @@ while True:
             # Translate PS2 codes to HID keycode
             keycode = get_keycode(code, code_ext)
             if DEBUG:
-                print("keycode:{:x}".format(keycode))
+                print("hid keycode:{:x} release:{:x}".format(keycode, release))
             
             # Send HID keycode
             if release:
